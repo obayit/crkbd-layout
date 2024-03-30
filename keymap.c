@@ -40,7 +40,7 @@ enum custom_layers {
 #define OSM_LCTL OSM(MOD_LCTL)
 #define OSM_AGR  OSM(MOD_RALT)
 #define OSL_FUN  OSL(_FUNC)
-#define GUI_ENT  GUI_T(KC_ENT)
+#define GUI_SPC  GUI_T(KC_SPC)
 #define LOW_TAB  LT(_LOWER, KC_TAB)
 #define RSE_BSP  LT(_RAISE, KC_BSPC)
 #define OSM_SFT  OSM(MOD_LSFT)
@@ -58,7 +58,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
  OSM(MOD_LSFT),   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                     KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,OSL_FUN ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         OSM_LCTL, GUI_ENT, LOW_TAB,   RSE_BSP ,KC_SPC  ,OSM_SFT
+                                         OSM_LCTL, GUI_SPC, LOW_TAB,   RSE_BSP ,KC_ENT  ,OSM_SFT
                                       //`--------------------------'  `--------------------------'
   ),
 
