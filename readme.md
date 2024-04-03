@@ -2,6 +2,12 @@
 
 This is Markstos layout with very minor customization
 
+Ideas
+=====
+
+- use double keys more, specially for stuff that i am struggling with, like backspace, and find word under cursor in vim
+- add macros for common vs code shortcuts (namely: open terminal, open finder, open git compare)
+
 
 # Markstos Corne keyboard layout
 

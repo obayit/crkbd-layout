@@ -29,7 +29,8 @@ This is the C configuration file for the keymap
 #define TAPPING_TERM 200
 #define TAPPING_TERM_PER_KEY
 // used for Tapping Term on thumb keys
-#define TAPPING_TERM_THUMB 125
+// the default is 200, markstos sets it to 125 which is too fast for me. This basically makes the per key term useless, since it all returns 200.
+#define TAPPING_TERM_THUMB 200
 
 // If you press a dual-role key, press another key, and then release the
 // dual-role key, all within the tapping term, by default the dual-role key
@@ -59,4 +60,10 @@ This is the C configuration file for the keymap
 // I want a relatively low timeout, so if I accidentally type "Shift", I can pause just briefly and move on.
 #define ONESHOT_TAP_TOGGLE 3  /* Tapping this number of times holds the key until tapped once again. */
 #define ONESHOT_TIMEOUT 2000  /* Time (in ms) before the one shot key is released */
+
+
+// obi additions
+//
+// I miss tapping space and backspace alot, retro tapping might just be the fix for me, instead of finding the sweet tapping term spot
+#define RETRO_TAPPING
 

@@ -12,17 +12,20 @@ enum custom_keycodes {
 
 enum combos {
   DF_DASH,
-  JK_ESC
+  JK_ESC,
+  FJ_TILDE
 };
 
 const uint16_t PROGMEM df_combo[] = {KC_D, KC_F, COMBO_END};
 const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
+const uint16_t PROGMEM fj_combo[] = {KC_F, KC_J, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
-  // Add commonly used dash to home row
-  [DF_DASH]    = COMBO(df_combo, KC_MINS),
+  // Add commonly used underscore to home row (i use snake case naming a lot)
+  [DF_DASH]    = COMBO(df_combo, KC_UNDS),
   // For Vim, put Escape on the home row
-  [JK_ESC]    = COMBO(jk_combo, KC_ESC),
+  [JK_ESC]     = COMBO(jk_combo, KC_ESC),
+  [FJ_TILDE]   = COMBO(jk_combo, KC_TILDE),
 };
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
