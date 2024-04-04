@@ -1,5 +1,5 @@
-// Copyright 2022 Mark Stosberg (@markstos)
-// SPDX-License-Identifier: GPL-2.0-or-later
+// cOPYRIGHT 2022 mARK sTOSBERG (@MARKSTOS)
+// spdx-lICENSE-iDENTIFIER: gpl-2.0-OR-LATER
 #include QMK_KEYBOARD_H
 
 enum custom_keycodes {
@@ -25,7 +25,7 @@ combo_t key_combos[COMBO_COUNT] = {
   [DF_DASH]    = COMBO(df_combo, KC_UNDS),
   // For Vim, put Escape on the home row
   [JK_ESC]     = COMBO(jk_combo, KC_ESC),
-  [FJ_TILDE]   = COMBO(jk_combo, KC_TILDE),
+  [FJ_TILDE]   = COMBO(fj_combo, KC_TILDE),
 };
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
@@ -44,7 +44,7 @@ enum custom_layers {
 #define OSM_AGR  OSM(MOD_RALT)
 #define OSL_FUN  OSL(_FUNC)
 #define GUI_SPC  GUI_T(KC_SPC)
-#define LOW_TAB  LT(_LOWER, KC_TAB)
+#define LOW_SPC  LT(_LOWER, KC_SPC)
 #define RSE_BSP  LT(_RAISE, KC_BSPC)
 #define OSM_SFT  OSM(MOD_LSFT)
 
@@ -61,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
  OSM(MOD_LSFT),   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                     KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,OSL_FUN ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         OSM_LCTL, GUI_SPC, LOW_TAB,   RSE_BSP ,KC_ENT  ,OSM_SFT
+                                         OSM_LCTL, KC_LEFT_GUI, LOW_SPC,   RSE_BSP ,KC_ENT  ,OSM_SFT
                                       //`--------------------------'  `--------------------------'
   ),
 
