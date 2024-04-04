@@ -16,18 +16,6 @@ enum combos {
   FJ_TILDE
 };
 
-const uint16_t PROGMEM df_combo[] = {KC_D, KC_F, COMBO_END};
-const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
-const uint16_t PROGMEM fj_combo[] = {KC_F, KC_J, COMBO_END};
-
-combo_t key_combos[COMBO_COUNT] = {
-  // Add commonly used underscore to home row (i use snake case naming a lot)
-  [DF_DASH]    = COMBO(df_combo, KC_UNDS),
-  // For Vim, put Escape on the home row
-  [JK_ESC]     = COMBO(jk_combo, KC_ESC),
-  [FJ_TILDE]   = COMBO(fj_combo, KC_TILDE),
-};
-
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
@@ -44,9 +32,32 @@ enum custom_layers {
 #define OSM_AGR  OSM(MOD_RALT)
 #define OSL_FUN  OSL(_FUNC)
 #define GUI_SPC  GUI_T(KC_SPC)
-#define LOW_SPC  LT(_LOWER, KC_SPC)
+
+#define HM_A LCTL_T(KC_A)
+#define HM_S LALT_T(KC_S)
+#define HM_D RSFT_T(KC_D)
+#define HM_F LGUI_T(KC_F)
+#define HM_J RGUI_T(KC_J)
+#define HM_K RSFT_T(KC_K)
+#define HM_L LALT_T(KC_L)
+#define HM_QUOT RCTL_T(KC_QUOT)
+
+#define LOW_TAB  LT(_LOWER, KC_TAB)
 #define RSE_BSP  LT(_RAISE, KC_BSPC)
 #define OSM_SFT  OSM(MOD_LSFT)
+
+const uint16_t PROGMEM df_combo[] = {HM_D, HM_F, COMBO_END};
+const uint16_t PROGMEM jk_combo[] = {HM_J, HM_K, COMBO_END};
+const uint16_t PROGMEM fj_combo[] = {HM_F, HM_J, COMBO_END};
+
+combo_t key_combos[COMBO_COUNT] = {
+  // Add commonly used underscore to home row (i use snake case naming a lot)
+  [DF_DASH]    = COMBO(df_combo, KC_UNDS),
+  // For Vim, put Escape on the home row
+  [JK_ESC]     = COMBO(jk_combo, KC_ESC),
+  [FJ_TILDE]   = COMBO(fj_combo, KC_TILDE),
+};
+
 
 
 // For _RAISE layer
@@ -57,11 +68,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,KC_DEL  ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
- OSM(MOD_LALT),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     KC_H    ,KC_J    ,KC_K    ,KC_L    ,KC_QUOT ,OSM_AGR ,
+ OSM(MOD_LALT),   HM_A,    HM_S,    HM_D,    HM_F,    KC_G,                     KC_H    ,HM_J    ,HM_K    ,HM_L    ,HM_QUOT ,OSM_AGR ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
  OSM(MOD_LSFT),   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                     KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,OSL_FUN ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         OSM_LCTL, KC_LEFT_GUI, LOW_SPC,   RSE_BSP ,KC_ENT  ,OSM_SFT
+                                         KC_ESC , KC_SPC, LOW_TAB,    RSE_BSP ,KC_ENT ,KC_COLON
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -73,7 +84,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX , KC_TILD,KC_GRV, KC_LBRC, KC_LCBR,                       KC_RCBR, KC_RBRC, KC_COMM,KC_DOT,  KC_SLSH, _______ ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_TRNS,  KC_TRNS, LOWER,    KC_TRNS, KC_TRNS, KC_COLON
+                                          KC_TRNS,  KC_TRNS, LOWER,    KC_TRNS, KC_TRNS, KC_SCLN
                                       //`--------------------------'  `--------------------------'
     ),
 
