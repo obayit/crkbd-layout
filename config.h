@@ -26,10 +26,11 @@ This is the C configuration file for the keymap
 //#define TAPPING_FORCE_HOLD
 
 // Customized by markstos
-#define TAPPING_TERM 200
-#define TAPPING_TERM_PER_KEY
+#define TAPPING_TERM 300
+
 // used for Tapping Term on thumb keys
 // the default is 200, markstos sets it to 125 which is too fast for me. This basically makes the per key term useless, since it all returns 200.
+#define TAPPING_TERM_PER_KEY
 #define TAPPING_TERM_THUMB 200
 
 // If you press a dual-role key, press another key, and then release the

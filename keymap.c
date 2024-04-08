@@ -33,14 +33,23 @@ enum custom_layers {
 #define OSL_FUN  OSL(_FUNC)
 #define GUI_SPC  GUI_T(KC_SPC)
 
-#define HM_A LCTL_T(KC_A)
-#define HM_S LALT_T(KC_S)
+#define HM_A LALT_T(KC_A)
+#define HM_S LCTL_T(KC_S)
 #define HM_D RSFT_T(KC_D)
 #define HM_F LGUI_T(KC_F)
 #define HM_J RGUI_T(KC_J)
 #define HM_K RSFT_T(KC_K)
-#define HM_L LALT_T(KC_L)
-#define HM_QUOT RCTL_T(KC_QUOT)
+#define HM_L RCTL_T(KC_L)
+#define HM_QUOT LALT_T(KC_QUOT)
+
+#define HM_Z LALT_T(KC_Z)
+#define HM_X LCTL_T(KC_X)
+#define HM_C RSFT_T(KC_C)
+#define HM_V LGUI_T(KC_V)
+#define HM_M RGUI_T(KC_M)
+#define HM_COMM RSFT_T(KC_COMM)
+#define HM_DOT RCTL_T(KC_DOT)
+#define HM_SLSH LALT_T(KC_SLSH)
 
 #define LOW_TAB  LT(_LOWER, KC_TAB)
 #define RSE_BSP  LT(_RAISE, KC_BSPC)
@@ -124,3 +133,4 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
             return TAPPING_TERM;
     }
 }
+
