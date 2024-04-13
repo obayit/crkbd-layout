@@ -2,12 +2,25 @@
 // spdx-lICENSE-iDENTIFIER: gpl-2.0-OR-LATER
 #include QMK_KEYBOARD_H
 
+// TODO: enable permissive hold only for thumb keys, because i press them for layer too fast, e.g: left_layer + i for searching in vim
+// Macros I need:
+// 1. I define lots of dictionaries in python and objects in javascript, so i need a macro to print " = {"
+// 2. open terminal in vs code
+// 3. copy currently selected text, open browser workspace, send ctrl+t then paste, then send enter to do search
+// 4. send ":wq", am I brave enough to use this?
+
 enum custom_keycodes {
   QWERTY = SAFE_RANGE,
   LOWER,
   RAISE,
   FUNC,
-  BACKLIT
+  BACKLIT,
+  MACRO_1,
+  MACRO_2,
+  MACRO_3,
+  MACRO_4,
+  MACRO_5,
+  MACRO_6
 };
 
 enum combos {
@@ -81,7 +94,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
  OSM(MOD_LSFT),   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                     KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,OSL_FUN ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         KC_ESC , KC_SPC, LOW_TAB,    RSE_BSP ,KC_ENT ,KC_COLON
+                                         KC_ESC , KC_SPC, LOW_TAB,    RSE_BSP ,KC_ENT , KC_COLON
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -93,18 +106,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX , KC_TILD,KC_GRV, KC_LBRC, KC_LCBR,                       KC_RCBR, KC_RBRC, KC_COMM,KC_DOT,  KC_SLSH, _______ ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_TRNS,  KC_TRNS, LOWER,    KC_TRNS, KC_TRNS, KC_SCLN
+                                          KC_TRNS,  KC_TRNS, LOWER,    KC_TRNS, KC_TRNS, KC_COLON
                                       //`--------------------------'  `--------------------------'
     ),
 
 
   [_RAISE] = LAYOUT(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, KC_DEL , XXXXXXX, KC_UNDS, KC_PLUS, KC_PGUP,                      XXXXXXX, XXXXXXX, XXXXXXX, KC_BSLS, KC_PIPE,_______ ,
+      _______, KC_DEL , XXXXXXX, KC_UNDS, KC_PLUS, KC_PGUP,                      MACRO_1, MACRO_2, MACRO_3, KC_BSLS, KC_PIPE,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, KC_HOME, KC_END , KC_MINS, KC_EQL , KC_PGDN,                      KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, KC_APP ,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, KC_LT  , KC_GT  , KC_COPY, KC_PSTE, KC_SCLN,                      KC_MPLY, KC_MPRV, KC_MNXT, KC_VOLD, KC_VOLU,_______ ,
+      _______, KC_LT  , KC_GT  , KC_COPY, KC_PSTE, KC_SCLN,                      MACRO_4, MACRO_5, MACRO_6, KC_VOLD, KC_VOLU,_______ ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           CTL_ESC, KC_TRNS, XXXXXXX,    RAISE  , KC_TRNS, KC_TRNS
                                       //`--------------------------'  `--------------------------'
@@ -133,4 +146,37 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
             return TAPPING_TERM;
     }
 }
+
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+    case MACRO_1:
+        if (record->event.pressed) {
+            // when keycode QMKBEST is pressed
+           SEND_STRING(":wq");
+        } else {
+            // when keycode QMKBEST is released
+        }
+        break;
+
+    case MACRO_2:
+        if (record->event.pressed) {
+           SEND_STRING(SS_LCTL(SS_LSFT("~")));
+        }
+        break;
+
+    case MACRO_3:
+        if (record->event.pressed) {
+           SEND_STRING(SS_LCTL("c") SS_LGUI("w") SS_LCTL("t") SS_LCTL("v"));
+        }
+        break;
+
+    case MACRO_5:
+        if (record->event.pressed) {
+           SEND_STRING(" = ");
+        }
+        break;
+    }
+    return true;
+};
 
