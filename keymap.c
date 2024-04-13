@@ -167,13 +167,25 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case MACRO_3:
         if (record->event.pressed) {
-           SEND_STRING(SS_LCTL("c") SS_LGUI("w") SS_LCTL("t") SS_LCTL("v"));
+           SEND_STRING(SS_LCTL("`"));
+        }
+        break;
+
+    case MACRO_4:
+        if (record->event.pressed) {
+           SEND_STRING(SS_LCTL("c") SS_LGUI("w") SS_DELAY(200) SS_LCTL("t") SS_DELAY(300) SS_LCTL("v"));
         }
         break;
 
     case MACRO_5:
         if (record->event.pressed) {
            SEND_STRING(" = ");
+        }
+        break;
+
+    case MACRO_6:
+        if (record->event.pressed) {
+           SEND_STRING("g;");
         }
         break;
     }
