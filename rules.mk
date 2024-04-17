@@ -9,3 +9,5 @@ COMBO_ENABLE = yes
 # This is for RGB *underglow*
 # https://github.com/qmk/qmk_firmware/blob/master/docs/feature_rgblight.md
 RGBLIGHT_ENABLE = no
+
+TAP_DANCE_ENABLE = yes

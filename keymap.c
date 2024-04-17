@@ -83,7 +83,26 @@ combo_t key_combos[COMBO_COUNT] = {
   [FJ_TILDE]   = COMBO(fj_combo, KC_TILDE),
 };
 
+// Tap Dance declarations
+enum {
+    TD_1,
+    TD_2,
+    TD_3,
+    TD_4,
+    TD_5
+};
 
+// Tap Dance definitions
+tap_dance_action_t tap_dance_actions[] = {
+    // Tap once for first key, twice for second key
+    // characters are tricky for tab dance, the easy to access ones are common in words too, like e, m, c
+    // tab dance is not for normal characters, it is not practical, I have to find specific letters that do not repeat, until now v is the only one, accessible and not repeating
+    [TD_1] = ACTION_TAP_DANCE_DOUBLE(KC_M, KC_EQL),// common => co=on
+    [TD_2] = ACTION_TAP_DANCE_DOUBLE(KC_R, KC_COLON),// arrange => a:ange
+    [TD_3] = ACTION_TAP_DANCE_DOUBLE(KC_V, KC_UNDS),
+    [TD_4] = ACTION_TAP_DANCE_DOUBLE(KC_E, KC_MINS),// feel => f-l
+    [TD_5] = ACTION_TAP_DANCE_DOUBLE(KC_RBRC, KC_EQL), //closing bracket is perfect for tab dance, it is barely ever used, since IDEs auto close it, I really needed the equal in the numbers/symbols layer
+};
 
 // For _RAISE layer
 #define CTL_ESC  LCTL_T(KC_ESC)
@@ -91,11 +110,11 @@ combo_t key_combos[COMBO_COUNT] = {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,KC_DEL  ,
+       KC_TAB,    KC_Q,    KC_W,KC_E    ,    KC_R,    KC_T,                     KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,KC_DEL  ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
  OSM(MOD_LALT),   HM_A,    HM_S,    HM_D,    HM_F,    KC_G,                     KC_H    ,HM_J    ,HM_K    ,HM_L    ,HM_QUOT ,OSM_AGR ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
- OSM(MOD_LSFT),   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                     KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,OSL_FUN ,
+ OSM(MOD_LSFT),   KC_Z,    KC_X,    KC_C,TD(TD_3),    KC_B,                     KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,OSL_FUN ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                          MSC_ESC , KC_SPC, LOW_TAB,    RSE_BSP ,KC_ENT , KC_COLON
                                       //`--------------------------'  `--------------------------'
@@ -107,9 +126,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, KC_1,    KC_2,   KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX , KC_TILD,KC_GRV, KC_LBRC, KC_LCBR,                       KC_RCBR, KC_RBRC, KC_COMM,KC_DOT,  KC_SLSH, _______ ,
+      _______, XXXXXXX, KC_TILD,KC_GRV, KC_LBRC, KC_LCBR,                       KC_RCBR ,TD(TD_5), KC_COMM,KC_DOT,  KC_SLSH, _______ ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_TRNS,  KC_TRNS, LOWER,    KC_TRNS, KC_TRNS, KC_COLON
+                                          KC_TRNS,  KC_TRNS, LOWER,    KC_TRNS, KC_TRNS, KC_TRNS
                                       //`--------------------------'  `--------------------------'
     ),
 
