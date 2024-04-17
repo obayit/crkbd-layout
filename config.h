@@ -55,7 +55,8 @@ This is the C configuration file for the keymap
 
 // Set the COMBO_TERM so low that I won't type the keys one after each other during normal typing.
 // They would have be held together intentionally to trigger this.
-#define COMBO_TERM 40
+// obi changed this from 40 to 80
+#define COMBO_TERM 80
 
 // These mostly affect my one-shot Shift key, providing a CapsLock alternative.
 // I want a relatively low timeout, so if I accidentally type "Shift", I can pause just briefly and move on.
@@ -67,4 +68,14 @@ This is the C configuration file for the keymap
 //
 // I miss tapping space and backspace alot, retro tapping might just be the fix for me, instead of finding the sweet tapping term spot
 #define RETRO_TAPPING
+
+
+// mouse stuff
+#define MOUSEKEY_INTERVAL 16
+#define MOUSEKEY_DELAY 0
+#define MOUSEKEY_TIME_TO_MAX 20
+#define MOUSEKEY_MAX_SPEED 5
+#define MOUSEKEY_WHEEL_DELAY 0
+//
+//#define MK_3_SPEED 3
 
