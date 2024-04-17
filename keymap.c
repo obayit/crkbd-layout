@@ -21,7 +21,8 @@ enum custom_keycodes {
   MACRO_3,
   MACRO_4,
   MACRO_5,
-  MACRO_6
+  MACRO_6,
+  MACRO_7
 };
 
 enum combos {
@@ -135,7 +136,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_RAISE] = LAYOUT(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, KC_DEL , XXXXXXX, KC_MINS, KC_PLUS, KC_PGUP,                      MACRO_1, MACRO_2, MACRO_3, KC_BSLS, KC_PIPE,_______ ,
+      _______, MACRO_7, XXXXXXX, KC_MINS, KC_PLUS, KC_PGUP,                      MACRO_1, MACRO_2, MACRO_3, KC_BSLS, KC_PIPE,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, KC_HOME, KC_END , KC_UNDS, KC_EQL , KC_PGDN,                      KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, MACRO_6 ,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -222,7 +223,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
            SEND_STRING("g;");
         }
         break;
-    }
+
+    case MACRO_7:
+        if (record->event.pressed) {
+           SEND_STRING("\e0w");
+        }
+        break;
+
+    }  // end of switch block
+
     return true;
 };
 
