@@ -22,7 +22,13 @@ enum custom_keycodes {
   MACRO_4,
   MACRO_5,
   MACRO_6,
-  MACRO_7
+  MACRO_7,
+  MCRPR_1,
+  MCRPR_2,
+  MCRPR_3,
+  MCRPR_4,
+  MCRPR_5,
+  MCRPR_6,
 };
 
 enum combos {
@@ -41,6 +47,7 @@ enum custom_layers {
   _RAISE,
   _FUNC,
   _MISC,
+  _SNIP,
 };
 
 // For _QWERTY layer
@@ -129,7 +136,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX, KC_TILD,KC_GRV, KC_LBRC, KC_LCBR,                       KC_RCBR ,TD(TD_5), KC_COMM,KC_DOT,  KC_SLSH, _______ ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_TRNS,  KC_TRNS, LOWER,    KC_TRNS, KC_TRNS, KC_TRNS
+                                          KC_TRNS,  KC_TRNS, LOWER,    MO(_SNIP), KC_TRNS, KC_TRNS
                                       //`--------------------------'  `--------------------------'
     ),
 
@@ -142,7 +149,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, KC_PMNS, KC_PPLS, KC_COPY, KC_PSTE, KC_SCLN,                      MACRO_4, MACRO_5, KC_APP, KC_VOLD, KC_VOLU,_______ ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          CTL_ESC, KC_TRNS, XXXXXXX,    RAISE  , KC_TRNS, KC_TRNS
+                                          CTL_ESC, KC_TRNS,MO(_SNIP),    RAISE , KC_TRNS, KC_TRNS
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -168,6 +175,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           MISC   , XXXXXXX, XXXXXXX,   KC_BTN1 ,KC_BTN2 , KC_BTN3
                                       //`--------------------------'  `--------------------------'
+  ),
+
+  [_SNIP] = LAYOUT(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,_______ ,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, XXXXXXX, MCRPR_6, MCRPR_4, MCRPR_2, XXXXXXX,                     XXXXXXX , MCRPR_1, MCRPR_3, MCRPR_5, XXXXXXX,_______ ,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,_______ ,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX ,XXXXXXX , XXXXXXX
+                                      //`--------------------------'  `--------------------------'
   )
 };
 
@@ -180,6 +199,20 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
       default:
             return TAPPING_TERM;
     }
+}
+
+void _print_comment(char * syntax_print){
+   SEND_STRING(syntax_print);
+   SEND_STRING("('#");
+   SEND_STRING(SS_LCTL("v"));
+   SEND_STRING("')\eo");
+
+   SEND_STRING(syntax_print);
+   SEND_STRING("(");
+   SEND_STRING(SS_LCTL("v"));
+   SEND_STRING(")\e0");
+   SEND_STRING(SS_DELAY(200));
+   SEND_STRING("lh");  // for some reason in vs code the help context menu shows up for what ever variable under the cursor, so i have to hide it somehow
 }
 
 
@@ -196,13 +229,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case MACRO_2:
         if (record->event.pressed) {
-           SEND_STRING(SS_LCTL(SS_LSFT("~")));
+           SEND_STRING(SS_LCTL("`"));
         }
         break;
 
     case MACRO_3:
         if (record->event.pressed) {
-           SEND_STRING(SS_LCTL("`"));
+           SEND_STRING("=>");
         }
         break;
 
@@ -227,6 +260,42 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case MACRO_7:
         if (record->event.pressed) {
            SEND_STRING("\e0w");
+        }
+        break;
+
+    case MCRPR_1:
+        if (record->event.pressed) {
+            _print_comment("print");
+        }
+        break;
+
+    case MCRPR_2:
+        if (record->event.pressed) {
+            _print_comment("console.log");
+        }
+        break;
+
+    case MCRPR_3:
+        if (record->event.pressed) {
+            _print_comment("_logger.info");
+        }
+        break;
+
+    case MCRPR_4:
+        if (record->event.pressed) {
+           SEND_STRING("kill -9 picom\t");
+        }
+        break;
+
+    case MCRPR_5:
+        if (record->event.pressed) {
+           SEND_STRING("It cost 400,000 dollar to fire this weapon, for 12 seconds");
+        }
+        break;
+
+    case MCRPR_6:
+        if (record->event.pressed) {
+           SEND_STRING("kill -9 redshi\t");
         }
         break;
 
