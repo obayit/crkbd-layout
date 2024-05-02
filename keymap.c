@@ -75,8 +75,14 @@ enum custom_layers {
 #define HM_SLSH LALT_T(KC_SLSH)
 
 #define LOW_TAB  LT(_LOWER, KC_TAB)
+#define LOW_UND  LT(_LOWER, KC_UNDS)
+#define LOW_SPC  LT(_LOWER, KC_SPC)
 #define RSE_BSP  LT(_RAISE, KC_BSPC)
+#define RSE_ENT  LT(_RAISE, KC_ENT)
 #define MSC_ESC  LT(_MISC, KC_ESC)
+#define SNP_BSP  LT(_SNIP, KC_BSPC)
+#define SNP_TAB  LT(_SNIP, KC_TAB)
+#define SNP_UND  LT(_SNIP, KC_UNDS)
 #define OSM_SFT  OSM(MOD_LSFT)
 
 const uint16_t PROGMEM df_combo[] = {HM_D, HM_F, COMBO_END};
@@ -124,7 +130,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
  OSM(MOD_LSFT),   KC_Z,    KC_X,    KC_C,TD(TD_3),    KC_B,                     KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,OSL_FUN ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         MSC_ESC , KC_SPC, LOW_TAB,    RSE_BSP ,KC_ENT , KC_COLON
+                                         MSC_ESC , LOW_SPC, LOW_TAB,    RSE_BSP ,RSE_ENT , KC_COLON
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -136,20 +142,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX, KC_TILD,KC_GRV, KC_LBRC, KC_LCBR,                       KC_RCBR ,TD(TD_5), KC_COMM,KC_DOT,  KC_SLSH, _______ ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_TRNS,  KC_TRNS, LOWER,    MO(_SNIP),KC_PLUS, KC_MINS
+                                          KC_TRNS, KC_TRNS, _______,    SNP_BSP ,KC_PLUS, KC_MINS
                                       //`--------------------------'  `--------------------------'
     ),
 
 
   [_RAISE] = LAYOUT(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, MACRO_7, XXXXXXX, KC_MINS, KC_PLUS, KC_PGUP,                      MACRO_1, MACRO_2, MACRO_3, KC_BSLS, KC_PIPE,_______ ,
+      _______, MACRO_7,KC_COLON, KC_MINS, KC_PLUS, KC_PGUP,                      MACRO_1, MACRO_2, MACRO_3, KC_BSLS, KC_PIPE,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, KC_HOME, KC_END , KC_UNDS, KC_EQL , KC_PGDN,                      KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, MACRO_6 ,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, KC_PMNS, KC_PPLS, KC_COPY, KC_PSTE, KC_SCLN,                      MACRO_4, MACRO_5, KC_APP, KC_VOLD, KC_VOLU,_______ ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          CTL_ESC, KC_TRNS,MO(_SNIP),    RAISE , KC_TRNS, KC_TRNS
+                                          CTL_ESC, KC_TRNS, SNP_UND,    _______, KC_TRNS, KC_TRNS
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -167,7 +173,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_MISC] = LAYOUT(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,_______ ,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , KC_PGUP, KC_PGDN, XXXXXXX, XXXXXXX,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX, XXXXXXX, KC_WH_U, KC_WH_D, XXXXXXX,                     KC_MS_L , KC_MS_D, KC_MS_U, KC_MS_R, XXXXXXX,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
