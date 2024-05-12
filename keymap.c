@@ -1,3 +1,11 @@
+// TODO: macros in layer 5 for common code combinations != <= >=
+//
+//
+//
+//
+//
+//
+//
 // cOPYRIGHT 2022 mARK sTOSBERG (@MARKSTOS)
 // spdx-lICENSE-iDENTIFIER: gpl-2.0-OR-LATER
 #include QMK_KEYBOARD_H
@@ -29,6 +37,10 @@ enum custom_keycodes {
   MCRPR_4,
   MCRPR_5,
   MCRPR_6,
+  MCRPR_7,
+  MCRPR_8,
+  MCRPR_9,
+  MCRPR_A
 };
 
 enum combos {
@@ -76,9 +88,9 @@ enum custom_layers {
 
 #define LOW_TAB  LT(_LOWER, KC_TAB)
 #define LOW_UND  LT(_LOWER, KC_UNDS)
-#define LOW_SPC  LT(_LOWER, KC_SPC)
+#define LYR_SPC  LT(_MISC, KC_SPC)
 #define RSE_BSP  LT(_RAISE, KC_BSPC)
-#define RSE_ENT  LT(_RAISE, KC_ENT)
+#define LYR_ENT  LT(_FUNC, KC_ENT)
 #define MSC_ESC  LT(_MISC, KC_ESC)
 #define SNP_BSP  LT(_SNIP, KC_BSPC)
 #define SNP_TAB  LT(_SNIP, KC_TAB)
@@ -99,6 +111,7 @@ combo_t key_combos[COMBO_COUNT] = {
 
 // Tap Dance declarations
 enum {
+    TD_0,
     TD_1,
     TD_2,
     TD_3,
@@ -111,12 +124,14 @@ tap_dance_action_t tap_dance_actions[] = {
     // Tap once for first key, twice for second key
     // characters are tricky for tab dance, the easy to access ones are common in words too, like e, m, c
     // tab dance is not for normal characters, it is not practical, I have to find specific letters that do not repeat, until now v is the only one, accessible and not repeating
+    [TD_0] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_COLON),// common => co=on
     [TD_1] = ACTION_TAP_DANCE_DOUBLE(KC_M, KC_EQL),// common => co=on
-    [TD_2] = ACTION_TAP_DANCE_DOUBLE(KC_R, KC_COLON),// arrange => a:ange
+    [TD_2] = ACTION_TAP_DANCE_DOUBLE(KC_DOT, KC_GT),// arrange => a:ange
     [TD_3] = ACTION_TAP_DANCE_DOUBLE(KC_V, KC_UNDS),
-    [TD_4] = ACTION_TAP_DANCE_DOUBLE(KC_E, KC_MINS),// feel => f-l
+    [TD_4] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_LT),// feel => f-l
     [TD_5] = ACTION_TAP_DANCE_DOUBLE(KC_RBRC, KC_EQL), //closing bracket is perfect for tab dance, it is barely ever used, since IDEs auto close it, I really needed the equal in the numbers/symbols layer
 };
+// #define HM_QUOT LALT_T(TD(TD_0))  # this does not work
 
 // For _RAISE layer
 #define CTL_ESC  LCTL_T(KC_ESC)
@@ -128,9 +143,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
  OSM(MOD_LALT),   HM_A,    HM_S,    HM_D,    HM_F,    KC_G,                     KC_H    ,HM_J    ,HM_K    ,HM_L    ,HM_QUOT ,OSM_AGR ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
- OSM(MOD_LSFT),   KC_Z,    KC_X,    KC_C,TD(TD_3),    KC_B,                     KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,OSL_FUN ,
+ OSM(MOD_LSFT),   KC_Z,    KC_X,    KC_C,TD(TD_3),    KC_B,                     KC_N    ,KC_M    ,TD(TD_4),TD(TD_2),KC_SLSH ,OSL_FUN ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         MSC_ESC , LOW_SPC, LOW_TAB,    RSE_BSP ,RSE_ENT , KC_COLON
+                                         MSC_ESC , LYR_SPC, LOW_TAB,    RSE_BSP ,LYR_ENT , KC_COLON
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -185,11 +200,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_SNIP] = LAYOUT(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,_______ ,
+      _______, MCRPR_8, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX, MCRPR_6, MCRPR_4, MCRPR_2, XXXXXXX,                     XXXXXXX , MCRPR_1, MCRPR_3, MCRPR_5, XXXXXXX,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,_______ ,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , MCRPR_7, MCRPR_9, MCRPR_A, XXXXXXX,_______ ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX ,XXXXXXX , XXXXXXX
                                       //`--------------------------'  `--------------------------'
@@ -302,6 +317,30 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case MCRPR_6:
         if (record->event.pressed) {
            SEND_STRING("kill -9 redshi\t");
+        }
+        break;
+
+    case MCRPR_7:
+        if (record->event.pressed) {
+           SEND_STRING("kubernetes");
+        }
+        break;
+
+    case MCRPR_8:
+        if (record->event.pressed) {
+           SEND_STRING("!=");
+        }
+        break;
+
+    case MCRPR_9:
+        if (record->event.pressed) {
+           SEND_STRING("<=");
+        }
+        break;
+
+    case MCRPR_A:
+        if (record->event.pressed) {
+           SEND_STRING(">=");
         }
         break;
 
