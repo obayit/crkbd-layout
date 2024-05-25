@@ -1,11 +1,4 @@
-// TODO: macros in layer 5 for common code combinations != <= >=
-//
-//
-//
-//
-//
-//
-//
+// TODO: find word under cursor in vscode, esc, yiw, ctl+shift+f, ctl+v, enter
 // cOPYRIGHT 2022 mARK sTOSBERG (@MARKSTOS)
 // spdx-lICENSE-iDENTIFIER: gpl-2.0-OR-LATER
 #include QMK_KEYBOARD_H
@@ -40,7 +33,9 @@ enum custom_keycodes {
   MCRPR_7,
   MCRPR_8,
   MCRPR_9,
-  MCRPR_A
+  MCRPR_A,
+  MCRPR_B,
+  MCRPR_C
 };
 
 enum combos {
@@ -124,6 +119,7 @@ tap_dance_action_t tap_dance_actions[] = {
     // Tap once for first key, twice for second key
     // characters are tricky for tab dance, the easy to access ones are common in words too, like e, m, c
     // tab dance is not for normal characters, it is not practical, I have to find specific letters that do not repeat, until now v is the only one, accessible and not repeating
+    // tabdance is really hard to implement in the QWERTY layer, because many letters need to be repeated frequently, even the dot for the command "cd .."
     [TD_0] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_COLON),// common => co=on
     [TD_1] = ACTION_TAP_DANCE_DOUBLE(KC_M, KC_EQL),// common => co=on
     [TD_2] = ACTION_TAP_DANCE_DOUBLE(KC_DOT, KC_GT),// arrange => a:ange
@@ -143,7 +139,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
  OSM(MOD_LALT),   HM_A,    HM_S,    HM_D,    HM_F,    KC_G,                     KC_H    ,HM_J    ,HM_K    ,HM_L    ,HM_QUOT ,OSM_AGR ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
- OSM(MOD_LSFT),   KC_Z,    KC_X,    KC_C,TD(TD_3),    KC_B,                     KC_N    ,KC_M    ,TD(TD_4),TD(TD_2),KC_SLSH ,OSL_FUN ,
+ OSM(MOD_LSFT),   KC_Z,    KC_X,    KC_C,TD(TD_3),    KC_B,                     KC_N    ,KC_M    ,TD(TD_4), KC_DOT ,KC_SLSH ,OSL_FUN ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                          MSC_ESC , LYR_SPC, LOW_TAB,    RSE_BSP ,LYR_ENT , KC_COLON
                                       //`--------------------------'  `--------------------------'
@@ -178,7 +174,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       _______, KC_F1  , KC_F2  , KC_F3   , KC_F4 ,  KC_F5 ,                     KC_F6   , KC_F7  , KC_F8  , KC_F9  , KC_F10 ,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, KC_F11 , KC_F12 , XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , XXXXXXX, XXXXXXX, XXXXXXX, QK_RBT ,_______ ,
+      _______, KC_F11 , KC_F12 , XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , KC_DEL , XXXXXXX, XXXXXXX, QK_RBT ,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, KC_CAPS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT,XXXXXXX ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -188,11 +184,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_MISC] = LAYOUT(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , KC_PGUP, KC_PGDN, XXXXXXX, XXXXXXX,_______ ,
+      _______, XXXXXXX, MCRPR_B, KC_ESC , KC_ESC , XXXXXXX,                     XXXXXXX , KC_PGUP, KC_PGDN, XXXXXXX, XXXXXXX,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, KC_WH_U, KC_WH_D, XXXXXXX,                     KC_MS_L , KC_MS_D, KC_MS_U, KC_MS_R, XXXXXXX,_______ ,
+      _______, XXXXXXX, KC_ESC , KC_WH_U, KC_WH_D, XXXXXXX,                     KC_MS_L , KC_MS_D, KC_MS_U, KC_MS_R, XXXXXXX,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , KC_BTN4, KC_BTN5, XXXXXXX, XXXXXXX,XXXXXXX ,
+      _______, XXXXXXX, KC_ESC , KC_ESC , KC_ESC , XXXXXXX,                     XXXXXXX , KC_BTN4, KC_BTN5, XXXXXXX, XXXXXXX,XXXXXXX ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           MISC   , XXXXXXX, XXXXXXX,   KC_BTN1 ,KC_BTN2 , KC_BTN3
                                       //`--------------------------'  `--------------------------'
@@ -200,7 +196,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_SNIP] = LAYOUT(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, MCRPR_8, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,_______ ,
+      _______, MCRPR_8, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , MCRPR_C, XXXXXXX, XXXXXXX, XXXXXXX,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX, MCRPR_6, MCRPR_4, MCRPR_2, XXXXXXX,                     XXXXXXX , MCRPR_1, MCRPR_3, MCRPR_5, XXXXXXX,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -343,6 +339,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
            SEND_STRING(">=");
         }
         break;
+
+    case MCRPR_B:
+        if (record->event.pressed) {
+           SEND_STRING(SS_LCTL("w"));
+        }
+        break;
+
+    case MCRPR_C:
+        if (record->event.pressed) {
+           // esc, yiw, ctl+shift+f, ctl+v, enter
+           SEND_STRING("\eyiw");
+           SEND_STRING(SS_LCTL("F"));
+           SEND_STRING(SS_DELAY(200));
+           SEND_STRING(SS_LCTL("v"));
+        }
+        break;
+
 
     }  // end of switch block
 
