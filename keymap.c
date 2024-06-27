@@ -35,7 +35,8 @@ enum custom_keycodes {
   MCRPR_9,
   MCRPR_A,
   MCRPR_B,
-  MCRPR_C
+  MCRPR_C,
+  MCRPR_D,
 };
 
 enum combos {
@@ -55,6 +56,7 @@ enum custom_layers {
   _FUNC,
   _MISC,
   _SNIP,
+  _CONFIG,
 };
 
 // For _QWERTY layer
@@ -135,13 +137,13 @@ tap_dance_action_t tap_dance_actions[] = {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB,    KC_Q,    KC_W,KC_E    ,    KC_R,    KC_T,                     KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,KC_DEL  ,
+      _______,    KC_Q,    KC_W,KC_E    ,    KC_R,    KC_T,                     KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
- OSM(MOD_LALT),   HM_A,    HM_S,    HM_D,    HM_F,    KC_G,                     KC_H    ,HM_J    ,HM_K    ,HM_L    ,HM_QUOT ,OSM_AGR ,
+      _______,    HM_A,    HM_S,    HM_D,    HM_F,    KC_G,                     KC_H    ,HM_J    ,HM_K    ,HM_L    ,HM_QUOT ,_______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
- OSM(MOD_LSFT),   KC_Z,    KC_X,    KC_C,TD(TD_3),    KC_B,                     KC_N    ,KC_M    ,TD(TD_4), KC_DOT ,KC_SLSH ,OSL_FUN ,
+      _______,    KC_Z,    KC_X,    KC_C,TD(TD_3),    KC_B,                     KC_N    ,KC_M    ,TD(TD_4), KC_DOT ,KC_SLSH ,_______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         MSC_ESC , LYR_SPC, LOW_TAB,    RSE_BSP ,LYR_ENT , KC_COLON
+                                         _______ , LYR_SPC, LOW_TAB,    RSE_BSP ,LYR_ENT , MO(_CONFIG)
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -196,13 +198,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_SNIP] = LAYOUT(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, MCRPR_8, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , MCRPR_C, XXXXXXX, XXXXXXX, XXXXXXX,_______ ,
+      _______, MCRPR_8, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , MCRPR_C, MCRPR_D, XXXXXXX, XXXXXXX,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX, MCRPR_6, MCRPR_4, MCRPR_2, XXXXXXX,                     XXXXXXX , MCRPR_1, MCRPR_3, MCRPR_5, XXXXXXX,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , MCRPR_7, MCRPR_9, MCRPR_A, XXXXXXX,_______ ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX ,XXXXXXX , XXXXXXX
+                                      //`--------------------------'  `--------------------------'
+  ),
+
+  [_CONFIG] = LAYOUT(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT,_______ ,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , RGB_VAI, RGB_SAI, RGB_HUI, RGB_TOG,_______ ,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX , RGB_VAD, RGB_SAD, RGB_HUD, RGB_MOD,_______ ,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX ,XXXXXXX , _______
                                       //`--------------------------'  `--------------------------'
   )
 };
@@ -219,17 +233,17 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 }
 
 void _print_comment(char * syntax_print){
-   SEND_STRING(syntax_print);
-   SEND_STRING("('#");
-   SEND_STRING(SS_LCTL("v"));
-   SEND_STRING("')\eo");
+   send_string(syntax_print);
+   send_string("('#");
+   send_string(SS_LCTL("v"));
+   send_string("');\eo");
 
-   SEND_STRING(syntax_print);
-   SEND_STRING("(");
-   SEND_STRING(SS_LCTL("v"));
-   SEND_STRING(")\e0");
-   SEND_STRING(SS_DELAY(200));
-   SEND_STRING("lh");  // for some reason in vs code the help context menu shows up for what ever variable under the cursor, so i have to hide it somehow
+   send_string(syntax_print);
+   send_string("(");
+   send_string(SS_LCTL("v"));
+   send_string(");\e0");
+   send_string(SS_DELAY(200));
+   send_string("lh");  // for some reason in vs code the help context menu shows up for what ever variable under the cursor, so i have to hide it somehow
 }
 
 
@@ -238,7 +252,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case MACRO_1:
         if (record->event.pressed) {
             // when keycode QMKBEST is pressed
-           SEND_STRING("\e:wq");
+           send_string("\e:wq");
         } else {
             // when keycode QMKBEST is released
         }
@@ -246,37 +260,37 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case MACRO_2:
         if (record->event.pressed) {
-           SEND_STRING(SS_LCTL("`"));
+           send_string(SS_LCTL("`"));
         }
         break;
 
     case MACRO_3:
         if (record->event.pressed) {
-           SEND_STRING("=>");
+           send_string(" => ");
         }
         break;
 
     case MACRO_4:
         if (record->event.pressed) {
-           SEND_STRING(SS_LCTL("c") SS_LGUI("w") SS_DELAY(200) SS_LCTL("t") SS_DELAY(300) SS_LCTL("v"));
+           send_string(SS_LCTL("c") SS_LGUI("w") SS_DELAY(200) SS_LCTL("t") SS_DELAY(300) SS_LCTL("v"));
         }
         break;
 
     case MACRO_5:
         if (record->event.pressed) {
-           SEND_STRING(" = ");
+           send_string(" = ");
         }
         break;
 
     case MACRO_6:
         if (record->event.pressed) {
-           SEND_STRING("g;");
+           send_string("g;");
         }
         break;
 
     case MACRO_7:
         if (record->event.pressed) {
-           SEND_STRING("\e0w");
+           send_string("\e0w");
         }
         break;
 
@@ -300,59 +314,66 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case MCRPR_4:
         if (record->event.pressed) {
-           SEND_STRING("kill -9 picom\t");
+           send_string("kill -9 picom\t");
         }
         break;
 
     case MCRPR_5:
         if (record->event.pressed) {
-           SEND_STRING("It cost 400,000 dollar to fire this weapon, for 12 seconds");
+           send_string("It cost 400,000 dollar to fire this weapon, for 12 seconds");
         }
         break;
 
     case MCRPR_6:
         if (record->event.pressed) {
-           SEND_STRING("kill -9 redshi\t");
+           send_string("kill -9 redshi\t");
         }
         break;
 
     case MCRPR_7:
         if (record->event.pressed) {
-           SEND_STRING("kubernetes");
+           send_string("kubernetes");
         }
         break;
 
     case MCRPR_8:
         if (record->event.pressed) {
-           SEND_STRING("!=");
+           send_string(" != ");
         }
         break;
 
     case MCRPR_9:
         if (record->event.pressed) {
-           SEND_STRING("<=");
+           send_string(" <= ");
         }
         break;
 
     case MCRPR_A:
         if (record->event.pressed) {
-           SEND_STRING(">=");
+           send_string(" >= ");
         }
         break;
 
     case MCRPR_B:
         if (record->event.pressed) {
-           SEND_STRING(SS_LCTL("w"));
+           send_string(SS_LCTL("w"));
         }
         break;
 
     case MCRPR_C:
         if (record->event.pressed) {
            // esc, yiw, ctl+shift+f, ctl+v, enter
-           SEND_STRING("\eyiw");
-           SEND_STRING(SS_LCTL("F"));
-           SEND_STRING(SS_DELAY(200));
-           SEND_STRING(SS_LCTL("v"));
+           send_string("\eyiw");
+           send_string(SS_LCTL("F"));
+           send_string(SS_DELAY(200));
+           send_string(SS_LCTL("v"));
+        }
+        break;
+
+    case MCRPR_D:
+        if (record->event.pressed) {
+           // esc, yiw, ctl+shift+f, ctl+v, enter
+           send_string("@i");
         }
         break;
 
