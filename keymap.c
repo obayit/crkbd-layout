@@ -37,6 +37,7 @@ enum custom_keycodes {
   MCRPR_B,
   MCRPR_C,
   MCRPR_D,
+  MCRPR_E,
 };
 
 enum combos {
@@ -107,6 +108,7 @@ combo_t key_combos[COMBO_COUNT] = {
 };
 
 // Tap Dance declarations
+/*
 enum {
     TD_0,
     TD_1,
@@ -115,8 +117,10 @@ enum {
     TD_4,
     TD_5
 };
+*/
 
 // Tap Dance definitions
+/*
 tap_dance_action_t tap_dance_actions[] = {
     // Tap once for first key, twice for second key
     // characters are tricky for tab dance, the easy to access ones are common in words too, like e, m, c
@@ -129,6 +133,7 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_4] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_LT),// feel => f-l
     [TD_5] = ACTION_TAP_DANCE_DOUBLE(KC_RBRC, KC_EQL), //closing bracket is perfect for tab dance, it is barely ever used, since IDEs auto close it, I really needed the equal in the numbers/symbols layer
 };
+*/
 // #define HM_QUOT LALT_T(TD(TD_0))  # this does not work
 
 // For _RAISE layer
@@ -141,7 +146,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______,    HM_A,    HM_S,    HM_D,    HM_F,    KC_G,                     KC_H    ,HM_J    ,HM_K    ,HM_L    ,HM_QUOT ,_______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______,    KC_Z,    KC_X,    KC_C,TD(TD_3),    KC_B,                     KC_N    ,KC_M    ,TD(TD_4), KC_DOT ,KC_SLSH ,_______,
+      _______,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                     KC_N    ,KC_M    ,KC_COMM , KC_DOT ,KC_SLSH ,_______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                          _______ , LYR_SPC, LOW_TAB,    RSE_BSP ,LYR_ENT , MO(_CONFIG)
                                       //`--------------------------'  `--------------------------'
@@ -153,7 +158,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, KC_1,    KC_2,   KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, KC_TILD,KC_GRV, KC_LBRC, KC_LCBR,                       KC_RCBR ,TD(TD_5), KC_COMM,KC_DOT,  KC_SLSH, _______ ,
+      _______, XXXXXXX, KC_TILD,KC_GRV, KC_LBRC, KC_LCBR,                       KC_RCBR , KC_RBRC, KC_COMM,KC_DOT,  KC_SLSH, _______ ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_TRNS, KC_TRNS, _______,    SNP_BSP ,KC_PLUS, KC_MINS
                                       //`--------------------------'  `--------------------------'
@@ -186,7 +191,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_MISC] = LAYOUT(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, XXXXXXX, MCRPR_B, KC_ESC , KC_ESC , XXXXXXX,                     XXXXXXX , KC_PGUP, KC_PGDN, XXXXXXX, XXXXXXX,_______ ,
+      _______, XXXXXXX, MCRPR_B, KC_ESC , MCRPR_E , XXXXXXX,                     XXXXXXX , KC_PGUP, KC_PGDN, XXXXXXX, XXXXXXX,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX, KC_ESC , KC_WH_U, KC_WH_D, XXXXXXX,                     KC_MS_L , KC_MS_D, KC_MS_U, KC_MS_R, XXXXXXX,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -377,6 +382,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         break;
 
+    case MCRPR_E:
+        if (record->event.pressed) {
+           // esc, yiw, ctl+shift+f, ctl+v, enter
+           send_string(SS_LGUI("r"));
+        }
+        break;
 
     }  // end of switch block
 
