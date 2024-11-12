@@ -85,14 +85,20 @@ enum custom_layers {
 #define HM_SLSH LALT_T(KC_SLSH)
 
 #define LOW_TAB  LT(_LOWER, KC_TAB)
+#define LOW_SPC  LT(_LOWER, KC_SPC)
 #define LOW_UND  LT(_LOWER, KC_UNDS)
 #define LYR_SPC  LT(_MISC, KC_SPC)
+#define LYR_TAB  LT(_MISC, KC_TAB)
 #define RSE_BSP  LT(_RAISE, KC_BSPC)
+#define RSE_ENT  LT(_RAISE, KC_ENT)
 #define LYR_ENT  LT(_FUNC, KC_ENT)
+#define LYR_BSP  LT(_FUNC, KC_BSPC)
 #define MSC_ESC  LT(_MISC, KC_ESC)
 #define SNP_BSP  LT(_SNIP, KC_BSPC)
+#define SNP_ENT  LT(_SNIP, KC_ENT)
 #define SNP_TAB  LT(_SNIP, KC_TAB)
 #define SNP_UND  LT(_SNIP, KC_UNDS)
+#define SNP_SPC  LT(_SNIP, KC_SPC)
 #define OSM_SFT  OSM(MOD_LSFT)
 
 const uint16_t PROGMEM df_combo[] = {HM_D, HM_F, COMBO_END};
@@ -148,7 +154,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                     KC_N    ,KC_M    ,KC_COMM , KC_DOT ,KC_SLSH ,_______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         _______ , LYR_SPC, LOW_TAB,    RSE_BSP ,LYR_ENT , MO(_CONFIG)
+                                         _______ , LYR_TAB, LOW_SPC,    RSE_ENT ,LYR_BSP , MO(_CONFIG)
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -160,7 +166,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX, KC_TILD,KC_GRV, KC_LBRC, KC_LCBR,                       KC_RCBR , KC_RBRC, KC_COMM,KC_DOT,  KC_SLSH, _______ ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_TRNS, KC_TRNS, _______,    SNP_BSP ,KC_PLUS, KC_MINS
+                                          KC_TRNS, KC_TRNS, _______,    SNP_ENT ,KC_PLUS, KC_MINS
                                       //`--------------------------'  `--------------------------'
     ),
 
@@ -173,7 +179,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, KC_PMNS, KC_PPLS, KC_COPY, KC_PSTE, KC_SCLN,                      MACRO_4, MACRO_5, KC_APP, KC_VOLD, KC_VOLU,_______ ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          CTL_ESC, KC_TRNS, SNP_UND,    _______, KC_TRNS, KC_TRNS
+                                          CTL_ESC, KC_TRNS, SNP_SPC,    _______, KC_TRNS, KC_TRNS
                                       //`--------------------------'  `--------------------------'
   ),
 
