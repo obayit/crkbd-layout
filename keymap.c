@@ -2,6 +2,7 @@
 // cOPYRIGHT 2022 mARK sTOSBERG (@MARKSTOS)
 // spdx-lICENSE-iDENTIFIER: gpl-2.0-OR-LATER
 #include QMK_KEYBOARD_H
+int human_delay = 100;  // 100 ms means typing speed of about 120 wpm
 
 // TODO: enable permissive hold only for thumb keys, because i press them for layer too fast, e.g: left_layer + i for searching in vim
 // Macros I need:
@@ -98,7 +99,7 @@ enum custom_layers {
 #define SNP_ENT  LT(_SNIP, KC_ENT)
 #define SNP_TAB  LT(_SNIP, KC_TAB)
 #define SNP_UND  LT(_SNIP, KC_UNDS)
-#define SNP_SPC  LT(_SNIP, KC_SPC)
+#define SNP_SPC  LT(_SNIP, KC_UNDS)
 #define OSM_SFT  OSM(MOD_LSFT)
 
 const uint16_t PROGMEM df_combo[] = {HM_D, HM_F, COMBO_END};
@@ -179,7 +180,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, KC_PMNS, KC_PPLS, KC_COPY, KC_PSTE, KC_SCLN,                      MACRO_4, MACRO_5, KC_APP, KC_VOLD, KC_VOLU,_______ ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          CTL_ESC, KC_TRNS, SNP_SPC,    _______, KC_TRNS, KC_TRNS
+                                          CTL_ESC, KC_TRNS, SNP_UND,    _______, KC_TRNS, KC_TRNS
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -244,17 +245,17 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 }
 
 void _print_comment(char * syntax_print){
-   send_string(syntax_print);
-   send_string("('#");
-   send_string(SS_LCTL("v"));
-   send_string("');\eo");
+   send_string_with_delay(syntax_print, human_delay);
+   send_string_with_delay("('#", human_delay);
+   send_string_with_delay(SS_LCTL("v"), human_delay);
+   send_string_with_delay("');\eo", human_delay);
 
-   send_string(syntax_print);
-   send_string("(");
-   send_string(SS_LCTL("v"));
-   send_string(");\e0");
-   send_string(SS_DELAY(200));
-   send_string("lh");  // for some reason in vs code the help context menu shows up for what ever variable under the cursor, so i have to hide it somehow
+   send_string_with_delay(syntax_print, human_delay);
+   send_string_with_delay("(", human_delay);
+   send_string_with_delay(SS_LCTL("v"), human_delay);
+   send_string_with_delay(");\e0", human_delay);
+   send_string_with_delay(SS_DELAY(200), human_delay);
+   send_string_with_delay("lh", human_delay);  // for some reason in vs code the help context menu shows up for what ever variable under the cursor, so i have to hide it somehow
 }
 
 
@@ -277,7 +278,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case MACRO_3:
         if (record->event.pressed) {
-           send_string(" => ");
+           send_string_with_delay(" => ", human_delay);
         }
         break;
 
@@ -289,7 +290,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case MACRO_5:
         if (record->event.pressed) {
-           send_string(" = ");
+           send_string_with_delay(" = ", human_delay);
         }
         break;
 
@@ -349,19 +350,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case MCRPR_8:
         if (record->event.pressed) {
-           send_string(" != ");
+           send_string_with_delay(" != ", human_delay);
         }
         break;
 
     case MCRPR_9:
         if (record->event.pressed) {
-           send_string(" <= ");
+           send_string_with_delay(" <= ", human_delay);
         }
         break;
 
     case MCRPR_A:
         if (record->event.pressed) {
-           send_string(" >= ");
+           send_string_with_delay(" >= ", human_delay);
         }
         break;
 
